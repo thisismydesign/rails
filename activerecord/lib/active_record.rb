@@ -212,6 +212,10 @@ module ActiveRecord
 
   singleton_class.attr_reader :default_timezone
 
+  def self.deprecated_associations_mode=(value)
+    Associations::Deprecation.mode = value
+  end
+
   # Determines whether to use Time.utc (using :utc) or Time.local (using :local) when pulling
   # dates and times from the database. This is set to :utc by default.
   def self.default_timezone=(default_timezone)

@@ -1,3 +1,31 @@
+*   Implement support for deprecating associations:
+
+    ```ruby
+    has_many :posts, deprecated: true
+    ```
+
+    Deprecated associations usage is reported.
+
+    In `:warn` mode, usage issues a warning using `ActiveRecord::Base.logger`
+    (normally same as `Rails.logger` in Rails applications), including some
+    context and the application-level place where the access happened, if any.
+    This is the default mode.
+
+    In `:notify` mode, usage publishes a `deprecated_association.active_record`
+    Active Support notification. The payload has the association reflection
+    (`:reflection`), the application-level location where the access happened
+    (`:location`), and a deprecation message (`:message`). The location is a
+    `Thread::Backtrace::Location` object, or `nil`.
+
+    In addition to having objects representing the deprecated usage in a
+    structured way, `:notify` mode allows arbitrary logic in the subscriber,
+    which has proven to be very flexible.
+
+    The mode is configurable via the new application config parameter
+    `config.deprecated_associations_mode`.
+
+    *Xavier Noria*
+
 *   Use ntuples to populate row_count instead of count for Postgres
 
     *Jonathan Calvert*
